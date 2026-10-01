@@ -1,0 +1,34 @@
+create table aeronaves(
+	id serial primary key,
+	modelo varchar (200) not null,
+	codigo_cauda varchar(10) unique not null,
+	capacidade int not null check(capacidade>=0)
+)
+create table pilotos(
+	id serial primary key,
+	nome varchar (100) not null,
+	codigo_anac varchar (6) unique not null,
+	horas_voo int not null check (horas_voo>=0)
+)
+create table voos(
+	id serial primary key,
+	numero_voo varchar (100) not null,
+	origem varchar (100) not null,
+	destino varchar (100) not null,
+	data_hora timestamp default current_time,
+	status varchar (100) default "agendado" check(status in("agendado", "em voo", "concluido", "cancelado"))
+
+	constraint (fk_aeronaves_id),
+	foreign key aeronaves_id,
+	references aeronaves(id),
+
+	constraint (fk_aeronaves_id),
+	foreign key pilotos_id,
+	references aeronaves(id)
+)
+create table passageiros(
+	id serial primary key,
+	nome varchar(100) not null,
+	cpf varchar(11) unique not null,
+	email varchar (100) unique not null
+)
